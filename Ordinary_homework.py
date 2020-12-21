@@ -10,8 +10,9 @@ class Ordinary:
         self.driver.find_element_by_id("addHomeworkButton").click()
         time.sleep(1)
         # 选择学科
-        self.driver.find_element_by_xpath(
-            '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[1]').click()
+        # self.driver.find_element_by_xpath(
+        #     '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[1]').click()
+        self.driver.find_element_by_xpath('//span[text()="历史"]').click()
         # 输入作业名称
         self.driver.find_element_by_id("homeworkName").send_keys("普通作业_1")
         starttime = time.strftime('%Y-%m-%d %H:%M', time.localtime(time.time()))

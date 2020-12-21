@@ -12,8 +12,9 @@ class Sheet:
         self.driver.find_element_by_id("addHomeworkButton").click()
         time.sleep(1)
         # 选择学科
-        self.driver.find_element_by_xpath(
-            '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[1]').click()
+        # self.driver.find_element_by_xpath(
+        #     '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[1]').click()
+        self.driver.find_element_by_xpath('//span[text()="历史"]').click()
         # 输入作业名称
         self.driver.find_element_by_id("homeworkName").send_keys("答题卡_1")
         self.driver.find_element_by_css_selector('[type="7"]').click()
@@ -43,9 +44,11 @@ class Sheet:
             print("选择了", resourcetype)
         self.driver.find_element_by_id("sureBtn").click()
         # 继续添加
-        filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\BUG编写规范.txt',
-                     r'D:\BAK_JF\WP\素材\PDF\真\P0209C-数学理(1).pdf']
-        for filepath in filepaths[0:4:1]:
+        # filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\BUG编写规范.txt',
+        #              r'D:\BAK_JF\WP\素材\PDF\真\P0209C-数学理(1).pdf']
+        filepaths = [r'C:\Users\test\Desktop\素材\01.jpg', r'C:\Users\test\Desktop\素材\BUG编写规范.txt',
+                     r'C:\Users\test\Desktop\素材\P0209C-数学理(1).pdf']
+        for filepath in filepaths[0:3:1]:
             self.driver.find_element_by_id("showButton").click()
             self.driver.find_element_by_partial_link_text("本地添加").click()
             time.sleep(1)
