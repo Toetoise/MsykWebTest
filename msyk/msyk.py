@@ -10,28 +10,31 @@ import time
 import unittest
 import random
 import re
+import warnings
 # import pytest
 
 
 class TestVisitMsykByEdge(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        warnings.simplefilter('ignore', ResourceWarning)
         # driver_url = r"H:\Python38\msedgedriver.exe"
-        # self.driver = webdriver.Edge(executable_path=driver_url)
-        self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(10)
+        # cls.driver = webdriver.Edge(executable_path=driver_url)
+        cls.driver = webdriver.Chrome()
+        cls.driver.implicitly_wait(10)
         # url = "https://httpswww.msyk.cn/"
         url = "https://www.msyk.cn/"
-        self.driver.get(url)
-        self.driver.maximize_window()
-        res = self.isElementPresent("xpath", '/html/body/div[2]/div/a[2]')
-        if res is True:
-            print("首页打开成功！")
-        else:
-            print("首页打开失败！")
+        cls.driver.get(url)
+        cls.driver.maximize_window()
+        # res = self.isElementPresent("xpath", '/html/body/div[2]/div/a[2]')
+        # if res is True:
+        #     print("首页打开成功！")
+        # else:
+        #     print("首页打开失败！")
         # Login(self.driver).login("lusu", "12345678")
-        Login(self.driver).login("nls_1", "Msyk_741")
+        Login(cls.driver).login("nls_1", "Msyk_741")
         time.sleep(1)
-        self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
+        cls.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
     # def test_Login(self):
     #     login(self.driver).login("lusu", "12345678")
     #     # 用户协议弹框
@@ -65,6 +68,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
             return True
 
     def test_Homework(self):
+        self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("classAndGradeHomework").click()
         self.driver.find_element_by_xpath('//*[@id="classHomework"]').click()
         self.driver.find_element_by_partial_link_text("班级作业").click()
@@ -76,6 +80,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_link_text("待批阅").click()
 
     def test_Kecheng(self):
+        self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("courseCenter").click()
         time.sleep(1)
         self.driver.find_element_by_xpath('//button[text()="+新建课程"]').click()
@@ -90,6 +95,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_css_selector('[alt="高中生物"]').click()
         self.driver.find_element_by_id("confirmDefaultImage").click()
         self.driver.find_element_by_id("uploadImg").click()
+        # filepath = r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg'
         filepath = r'C:\Users\test\Desktop\素材\01.jpg'
         time.sleep(1)
         Upload(self.driver).upload_file(filepath)
@@ -218,7 +224,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_xpath('//a[text()="本地添加"]').click()
         time.sleep(2)
         Upload(self.driver).upload_file(filepath)
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element_by_xpath('//span[text()="图片"]').click()
         self.driver.find_element_by_xpath('//a[text()="从素材库添加 "]').click()
         check_pic = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
@@ -237,19 +243,20 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_xpath('//a[text()="从素材库添加 "]').click()
 
     def test_Sucaiku(self):
+        self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         # login(self.driver).login("lusu", "12345678")
         self.driver.find_element_by_id("material").click()
-        while True:
-            try:
-                Bullet = driver.find_element_by_xpath('//*[@id="layui-layer1"]')
-                if Bullet.is_displayed():
-                    print("有弹框")
-                    driver.find_element_by_xpath('//*[@id="layui-layer1"]/div[3]/a').click()
-                    continue
-                else:
-                    print("没有弹框")
-            except:
-                break
+        # while True:
+        #     try:
+        #         Bullet = driver.find_element_by_xpath('//*[@id="layui-layer1"]')
+        #         if Bullet.is_displayed():
+        #             print("有弹框")
+        #             driver.find_element_by_xpath('//*[@id="layui-layer1"]/div[3]/a').click()
+        #             continue
+        #         else:
+        #             print("没有弹框")
+        #     except:
+        #         break
         self.driver.find_element_by_xpath('//*[@id="h3-title-1"]/div[1]').click()
         # self.driver.find_element_by_xpath('//*[@id="myMaterialsubjectul"]/li[4]').click()
         # self.driver.find_element_by_xpath('//*[@id="gradeList"]/li[3]').click()
@@ -304,6 +311,22 @@ class TestVisitMsykByEdge(unittest.TestCase):
         print(filepaths[8])
         Upload(self.driver).upload_file(filepaths[8])
         time.sleep(1)
+        # 题库
+        self.driver.find_element_by_xpath('//*[@id="question-lib"]/span').click()
+        time.sleep(1)
+        # 系统题库
+        self.driver.find_element_by_xpath('//*[@id="toOwnerMagic"]').click()
+        # self.driver.find_element_by_xpath('//li[@class="f-fr"]').click()
+        # self.driver.find_element_by_xpath('//*[@class="badge"]').click()
+        # self.driver.find_element_by_xpath('//*[@class="basket-ft"]/a').click()
+        # questions_num = self.driver.find_element_by_xpath('//span[@id="j_que_total_amount"]')
+        # self.driver.find_element_by_xpath('//div[@id="j_muti_set_score"]').click()
+        # self.driver.find_element_by_xpath('//*[@class="mini-ipt j_max_quenum"]').send_keys(questions_num)
+        # self.driver.find_element_by_xpath('//*[@class="every j_every_score"]').send_keys("1")
+        # self.driver.find_element_by_id("primary").click()
+        # self.driver.find_element_by_xpath('//a[@data-opt="save"]').click()
+        # self.driver.find_element_by_id("primary").click()
+        # 文档
         self.driver.find_element_by_xpath('//*[@id="word-upload"]').click()
         time.sleep(1)
         print(filepaths[9])
@@ -314,20 +337,6 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_xpath('//*[@id="newFolderTr"]/td[2]/span/a[1]').click()
         self.driver.find_element_by_xpath('//*[@id="newFolder"]').click()
         self.driver.find_element_by_xpath('//*[@id="newFolderTr"]/td[2]/span/a[2]').click()
-        # 题库
-        self.driver.find_element_by_xpath('//*[@id="question-lib"]/span').click()
-        # 系统题库
-        self.driver.find_element_by_id("toOwnerMagic").click()
-        self.driver.find_element_by_xpath('//*[@class="u-btn btn-default btn-mid"]').click()
-        self.driver.find_element_by_xpath('//*[@class="badge"]').click()
-        self.driver.find_element_by_xpath('//*[@class="basket-ft"]/a').click()
-        questions_num = self.driver.find_element_by_xpath('//span[@id="j_que_total_amount"]')
-        self.driver.find_element_by_xpath('//div[@id="j_muti_set_score"]').click()
-        self.driver.find_element_by_xpath('//*[@class="mini-ipt j_max_quenum"]').send_keys(questions_num)
-        self.driver.find_element_by_xpath('//*[@class="every j_every_score"]').send_keys("1")
-        self.driver.find_element_by_id("primary").click()
-        self.driver.find_element_by_xpath('//a[@data-opt="save"]').click()
-        self.driver.find_element_by_id("primary").click()
 
         time.sleep(2)
         # i = 0
@@ -349,6 +358,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         #             while file_status
 
     def test_Fenzu(self):
+        self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("class-squad-manage").click()
         allStudent = self.driver.find_element_by_id("allStudent").text
         students_num = re.sub(r'）.*', "", re.sub(r'.*（', "", allStudent))
@@ -361,12 +371,14 @@ class TestVisitMsykByEdge(unittest.TestCase):
         while Groups_num < int(students_num) :
             self.driver.find_element_by_css_selector("#schemeUl > li:nth-child(1) > div:nth-child(1) > span:nth-child(4)").click()
             time.sleep(1)
-            self.driver.find_element_by_xpath("//*[@id='schemeUl']/li[1]/ul[{}]/li/span[1]".format(Groups_num + 1)).\
-                send_keys("{}".format(Groups_num+1))
+            add_button = self.driver.find_element_by_xpath("//*[@id='schemeUl']/li[1]/ul[{}]/li/span[1]".format(Groups_num + 1))
+            add_button.send_keys("{}".format(Groups_num+1))
             self.driver.find_element_by_xpath("//*[@id='schemeUl']/li[1]/ul[{}]/li/span[3]".format(Groups_num + 1)).click()
             Groups_num += 1
+            time.sleep(1)
 
-    def tearDown(self):
-        self.driver.quit()
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
 if __name__ == '__main__':
     unittest.main()
