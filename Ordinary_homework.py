@@ -1,5 +1,6 @@
 import time
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
 
 
 class Ordinary:
@@ -29,8 +30,10 @@ class Ordinary:
         self.driver.find_element_by_id("submitCourseware").click()
         # 添加微课
         self.driver.find_element_by_link_text("添加微课").click()
-        self.driver.find_element_by_css_selector('span[materialid="569"]').click()
-        self.driver.find_element_by_css_selector('button[id="saveResource"]').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
+        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
         # 添加习题
         time.sleep(1)
         self.driver.find_element_by_xpath('//button[@onclick="addQuestion()"]').click()

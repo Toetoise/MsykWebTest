@@ -6,6 +6,7 @@ from Reading_homework import Reading
 from Exam_homework import Exam
 from Sheet_homework import Sheet
 from Upload_file import Upload
+import Config_file
 import time
 import unittest
 import random
@@ -18,54 +19,22 @@ class TestVisitMsykByEdge(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         warnings.simplefilter('ignore', ResourceWarning)
-        # driver_url = r"H:\Python38\msedgedriver.exe"
-        # cls.driver = webdriver.Edge(executable_path=driver_url)
-        cls.driver = webdriver.Chrome()
+        driver_url = r"H:\Python38\msedgedriver.exe"
+        cls.driver = webdriver.Edge(executable_path=driver_url)
+        # cls.driver = webdriver.Chrome()
         cls.driver.implicitly_wait(10)
-        # url = "https://httpswww.msyk.cn/"
-        url = "https://www.msyk.cn/"
+        url = Config_file.Extranet_url
         cls.driver.get(url)
         cls.driver.maximize_window()
-        # res = self.isElementPresent("xpath", '/html/body/div[2]/div/a[2]')
-        # if res is True:
-        #     print("首页打开成功！")
-        # else:
-        #     print("首页打开失败！")
-        # Login(self.driver).login("lusu", "12345678")
+        judge_home = cls.driver.find_element_by_xpath('//a[text()="登录"]')
+        if judge_home.is_displayed():
+            print("首页打开成功！")
+        else:
+            print("首页打开失败！")
+        # Login(cls.driver).login("lusu", "12345678")
         Login(cls.driver).login("nls_1", "Msyk_741")
         time.sleep(1)
         cls.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
-    # def test_Login(self):
-    #     login(self.driver).login("lusu", "12345678")
-    #     # 用户协议弹框
-    #     # while True:
-    #     #     try:
-    #     #         Agreement = driver.find_element_by_xpath('//*[@id="layui-layer2"]')
-    #     #         if Agreement.is_displayed():
-    #     #             print("有弹框")
-    #     #             driver.find_element_by_xpath('//*[@id="layui-layer2"]/div[3]/a').click()
-    #     #             # time.sleep(1)
-    #     #             continue
-    #     #         else:
-    #     #             print("没有弹框")
-    #     #     except:
-    #     #         break
-    #     # loginSuccess = self.isElementPresent("id", "personalCenter")
-    #     # if loginSuccess is True:
-    #     #     print("登录成功！")
-    #     # else:
-    #     #     print("登录失败！")
-    #     # time.sleep(2)
-
-    def isElementPresent(self, by, value):
-        from selenium.common.exceptions import NoSuchElementException
-        try:
-            element = self.driver.find_element(by=by, value=value)
-        except NoSuchElementException as e:
-            print(e)
-            return False
-        else:
-            return True
 
     def test_Homework(self):
         self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
@@ -95,8 +64,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.find_element_by_css_selector('[alt="高中生物"]').click()
         self.driver.find_element_by_id("confirmDefaultImage").click()
         self.driver.find_element_by_id("uploadImg").click()
-        # filepath = r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg'
-        filepath = r'C:\Users\test\Desktop\素材\01.jpg'
+        filepath = Config_file.Local_filepaths[0]
         time.sleep(1)
         Upload(self.driver).upload_file(filepath)
         self.driver.find_element_by_id("textarea").send_keys("这是自动化测试_课程包的课程简介")
@@ -121,8 +89,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         ActionChains(self.driver).move_to_element(check).perform()
         self.driver.find_element_by_xpath('//*[@id="books"]/li[1]/ul/li[4]/div/a[1]/i').click()
         self.driver.find_element_by_id("uploadResourceBtn").click()
-        # filepath = r'D:\BAK_JF\WP\素材\视频\666.mp4'
-        filepath = r'C:\Users\test\Desktop\素材\666.mp4'
+        filepath = Config_file.Local_filepaths[2]
         time.sleep(1)
         Upload(self.driver).upload_file(filepath)
         self.driver.find_element_by_id("uploadFileList").click()
@@ -158,12 +125,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
             break
         self.driver.find_element_by_css_selector('#moduleList > li:nth-child(5)').click()
         self.driver.find_element_by_id("use-system-tree").click()
-        # filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\音频\different\林俊杰 - 将故事写成我们.mp3',
-        #              r'D:\BAK_JF\WP\素材\视频\NASA打造太空GPS导航_标清.mp4', r'D:\BAK_JF\WP\素材\PDF\真\P0209C-数学理(1).pdf',
-        #              r'D:\BAK_JF\WP\素材\题目\综合5-单、多、填、解.docx', r'D:\BAK_JF\WP\素材\ppt\模板19.pptx']
-        filepaths = [r'C:\Users\test\Desktop\素材\01.jpg', r'C:\Users\test\Desktop\素材\林俊杰 - 将故事写成我们.mp3',
-                     r'C:\Users\test\Desktop\素材\NASA打造太空GPS导航_标清.mp4', r'C:\Users\test\Desktop\素材\P0209C-数学理(1).pdf',
-                     r'C:\Users\test\Desktop\素材\综合5-单、多、填、解.docx', r'C:\Users\test\Desktop\素材\模板19.pptx']
+        filepaths = Config_file.Local_filepaths
         for filepath in filepaths[0:5:1]:
             self.driver.find_element_by_id("uploadResourceBtn").click()
             time.sleep(1)
@@ -196,8 +158,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
             self.driver.find_element_by_xpath('//*[@id="classDiv"]/span[{}]'.format(myCoursewareclass)).click()
         self.driver.find_element_by_id("coursewarName").send_keys("高中历史备课包")
         self.driver.find_element_by_class_name('upload-img-btn').click()
-        # filepath = r"D:\BAK_JF\WP\素材\picture\jpg\01.jpg"
-        filepath = r'C:\Users\test\Desktop\素材\01.jpg'
+        filepath = Config_file.Local_filepaths[0]
         time.sleep(1)
         Upload(self.driver).upload_file(filepath)
         time.sleep(1)
@@ -207,15 +168,15 @@ class TestVisitMsykByEdge(unittest.TestCase):
         time.sleep(1)
         # 添加PPT
         self.driver.find_element_by_xpath('//span[text()="PPT"]').click()
-        check_ppt = self.driver.find_element_by_xpath('//*[@id="containerDiv"]/div[1]/div/ul/li[1]/a/div/img')
-        ActionChains(self.driver).move_to_element(check_ppt).perform()
-        self.driver.find_element_by_xpath('//*[@id="containerDiv"]/div[1]/div/ul/li[1]/a/span/i').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
         self.driver.find_element_by_xpath('//button[text()="保存"]').click()
         time.sleep(1)
         # 添加文档
         self.driver.find_element_by_xpath('//span[text()="文档"]').click()
-        check_doc = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
-        ActionChains(self.driver).move_to_element(check_doc).perform()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
         self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
         self.driver.find_element_by_xpath('//button[text()="保存"]').click()
         time.sleep(1)
@@ -227,36 +188,88 @@ class TestVisitMsykByEdge(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_xpath('//span[text()="图片"]').click()
         self.driver.find_element_by_xpath('//a[text()="从素材库添加 "]').click()
-        check_pic = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
-        ActionChains(self.driver).move_to_element(check_pic).perform()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
         self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
         self.driver.find_element_by_xpath('//button[text()="保存"]').click()
         time.sleep(1)
         # 添加音频
         self.driver.find_element_by_xpath('//span[text()="音频"]').click()
-        self.driver.find_element_by_xpath('//a[text()="本地添加"]').click()
-        # mic_filepath = r"D:\BAK_JF\WP\素材\音频\different\林俊杰 - 将故事写成我们.mp3"
-        mic_filepath = r'C:\Users\test\Desktop\素材\林俊杰 - 将故事写成我们.mp3'
-        time.sleep(2)
-        Upload(self.driver).upload_file(mic_filepath)
-        time.sleep(1)
+        # 功能出现bug
+        # self.driver.find_element_by_xpath('//a[text()="本地添加"]').click()
+        # mic_filepath = Config_file.Local_filepaths[1]
+        # time.sleep(2)
+        # Upload(self.driver).upload_file(mic_filepath)
+        # time.sleep(1)
         self.driver.find_element_by_xpath('//a[text()="从素材库添加 "]').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
+        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
+        time.sleep(1)
+        # 添加微课
+        self.driver.find_element_by_xpath('//span[text()="微课"]').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
+        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
+        time.sleep(1)
+        # 添加测验
+        self.driver.find_element_by_xpath('//span[text()="测验"]').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
+        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
+        time.sleep(1)
+        # 添加例题
+        self.driver.find_element_by_xpath('//span[text()="例题"]').click()
+        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
+        ActionChains(self.driver).move_to_element(check).perform()
+        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
+        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
+        time.sleep(1)
+        # 未完善完
+        # # 添加答题卡
+        # self.driver.find_element_by_xpath('//span[text()="答题卡"]').click()
+        # # 单选题
+        # self.driver.find_element_by_id("choice-num-set").clear()
+        # self.driver.find_element_by_id("choice-num-set").send_keys("5")
+        # self.driver.find_element_by_id("quesCount").clear()
+        # self.driver.find_element_by_id("quesCount").send_keys("2")
+        # self.driver.find_element_by_xpath('//span[text()="添加"]').click()
+        # # 多选题
+        # self.driver.find_element_by_id("ques-type-select").click()
+        # self.driver.find_element_by_xpath('//span[text()="多选题"]').click()
+        # self.driver.find_element_by_xpath('//span[text()="添加"]').click()
+        # # 判断题
+        # self.driver.find_element_by_id("ques-type-select").click()
+        # self.driver.find_element_by_xpath('//span[text()="多选题"]').click()
+        # self.driver.find_element_by_xpath('//span[text()="添加"]').click()
+        # # 主观题
+        # self.driver.find_element_by_id("ques-type-select").click()
+        # self.driver.find_element_by_xpath('//span[text()="主观题"]').click()
+        # self.driver.find_element_by_xpath('//span[text()="添加"]').click()
+        # 作业讲解
+        self.driver.find_element_by_xpath('//span[text()="作业讲解"]').click()
+        self.driver.find_element_by_css_selector("#homeworkList:nth-child(1) > li:nth-child(2)").click()
+        self.driver.find_element_by_xpath('//*[@id="ques-num-list"]/div[1]/div[2]/button').click()
+        self.driver.find_element_by_xpath('//*[text()="保存"]').click()
+        # 未完善完
+        # # 反馈
+        # Feedback = self.driver.find_element_by_xpath('//div[@class="class-feedback"]/div[2]/table/tbody/tr[4]/td[1]')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", Feedback)
+        # self.driver.find_element_by_xpath('//div[@class="class-feedback"]/div[2]/table/tbody/tr[2]/td[2]/label[2]/span').click()
+        # self.driver.find_element_by_xpath('//*[text()="保存"]').click()
 
     def test_Sucaiku(self):
         self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
-        # login(self.driver).login("lusu", "12345678")
         self.driver.find_element_by_id("material").click()
-        # while True:
-        #     try:
-        #         Bullet = driver.find_element_by_xpath('//*[@id="layui-layer1"]')
-        #         if Bullet.is_displayed():
-        #             print("有弹框")
-        #             driver.find_element_by_xpath('//*[@id="layui-layer1"]/div[3]/a').click()
-        #             continue
-        #         else:
-        #             print("没有弹框")
-        #     except:
-        #         break
+        Bullet = self.driver.find_element_by_xpath('//*[@id="layui-layer1"]')
+        if Bullet.is_displayed():
+            print("有弹框")
+            self.driver.find_element_by_xpath('//*[@id="layui-layer1"]/div[3]/a').click()
+        else:
+            print("没有弹框")
         self.driver.find_element_by_xpath('//*[@id="h3-title-1"]/div[1]').click()
         # self.driver.find_element_by_xpath('//*[@id="myMaterialsubjectul"]/li[4]').click()
         # self.driver.find_element_by_xpath('//*[@id="gradeList"]/li[3]').click()
@@ -272,16 +285,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         self.driver.execute_script("arguments[0].scrollIntoView();", Materialgrade)
         Materialgrade.click()
         time.sleep(2)
-        # filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\音频\different\林俊杰 - 将故事写成我们.mp3',
-        #              r'D:\BAK_JF\WP\素材\视频\NASA打造太空GPS导航_标清.mp4', r'D:\BAK_JF\WP\素材\PDF\真\P0209C-数学理(1).pdf',
-        #              r'D:\BAK_JF\WP\素材\ppt\模板19.pptx', r'D:\BAK_JF\WP\素材\ppt\模板27.pptx',
-        #              r'D:\BAK_JF\WP\素材\ppt\各种字体.pptx', r'D:\BAK_JF\WP\素材\ppt\优质.pptx',
-        #              r'D:\BAK_JF\WP\素材\题目\综合5-单、多、填、解.docx', r'D:\BAK_JF\WP\素材\文档\2017年高中物理：电学实验.docx']
-        filepaths = [r'C:\Users\test\Desktop\素材\01.jpg', r'C:\Users\test\Desktop\素材\林俊杰 - 将故事写成我们.mp3',
-                     r'C:\Users\test\Desktop\素材\NASA打造太空GPS导航_标清.mp4', r'C:\Users\test\Desktop\素材\P0209C-数学理(1).pdf',
-                     r'C:\Users\test\Desktop\素材\模板19.pptx', r'C:\Users\test\Desktop\素材\模板27.pptx',
-                     r'C:\Users\test\Desktop\素材\各种字体.pptx', r'C:\Users\test\Desktop\素材\优质.pptx',
-                     r'C:\Users\test\Desktop\素材\综合5-单、多、填、解.docx', r'C:\Users\test\Desktop\素材\2017年高中物理：电学实验.docx']
+        filepaths = Config_file.Local_sck_filepaths
         for filepath in filepaths[0:4:1]:
             self.driver.find_element_by_xpath('//*[@id="file-upload"]').click()
             time.sleep(1)
