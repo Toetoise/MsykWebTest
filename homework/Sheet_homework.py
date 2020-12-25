@@ -1,6 +1,7 @@
 import time
 import random
-from Upload_file import Upload
+from autotest_msyk.Upload_file import Upload
+from autotest_msyk import Config_file
 from selenium.webdriver.common.keys import Keys
 
 
@@ -37,6 +38,7 @@ class Sheet:
         for resourcetype in resourcetypes[0:6:1]:
             self.driver.find_element_by_css_selector('[class="tol-search-input"]').send_keys(resourcetype)
             self.driver.find_element_by_id("searchBtn").click()
+            time.sleep(1)
             self.driver.find_element_by_css_selector(
                 "#materialList > tr:nth-child(1) > td.text-ellipsis > a > label > span").click()
             self.driver.find_element_by_css_selector('[class="tol-search-input"]').send_keys(Keys.CONTROL, "a")
@@ -44,12 +46,9 @@ class Sheet:
             print("选择了", resourcetype)
         self.driver.find_element_by_id("sureBtn").click()
         # 继续添加
-        # filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\BUG编写规范.txt',
-        #              r'D:\BAK_JF\WP\素材\PDF\真\P0209C-数学理(1).pdf']
-        filepaths = [r'C:\Users\test\Desktop\素材\01.jpg', r'C:\Users\test\Desktop\素材\BUG编写规范.txt',
-                     r'C:\Users\test\Desktop\素材\P0209C-数学理(1).pdf']
+        filepaths = Config_file.UN_bk_filepaths
         for filepath in filepaths[0:3:1]:
-            self.driver.find_element_by_id("showButton").click()
+            self.driver.find_element_by_xpath('//button[@id="showButton"]').click()
             self.driver.find_element_by_partial_link_text("本地添加").click()
             time.sleep(1)
             print(filepath)
@@ -59,6 +58,7 @@ class Sheet:
             while success.is_displayed():
                 self.driver.find_element_by_id("local-sure").click()
                 break
+            time.sleep(1)
         print("上传了图片、txt、PDF")
         # 添加答题卡
         self.driver.find_element_by_css_selector('[class="btn btn-sm btn-blue btn-tjxt continue-add-1"]').click()

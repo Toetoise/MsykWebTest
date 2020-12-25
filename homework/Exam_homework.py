@@ -1,13 +1,14 @@
 import time
+import random
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 
 
-class Ordinary:
+class Exam:
     def __init__(self, driver):
         self.driver = driver
 
-    def ordinary(self):
+    def exam(self):
         self.driver.find_element_by_id("addHomeworkButton").click()
         time.sleep(1)
         # 选择学科
@@ -15,7 +16,8 @@ class Ordinary:
         #     '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[1]').click()
         self.driver.find_element_by_xpath('//span[text()="历史"]').click()
         # 输入作业名称
-        self.driver.find_element_by_id("homeworkName").send_keys("普通作业_1")
+        self.driver.find_element_by_id("homeworkName").send_keys("小测_1")
+        self.driver.find_element_by_css_selector('[class=" exam-material"]').click()
         starttime = time.strftime('%Y-%m-%d %H:%M', time.localtime(time.time()))
         endtime = time.strftime('%Y-%m-%d %H:%M', time.localtime(time.time() + 7200))
         print(starttime, endtime)
@@ -30,17 +32,22 @@ class Ordinary:
         self.driver.find_element_by_id("submitCourseware").click()
         # 添加微课
         self.driver.find_element_by_link_text("添加微课").click()
-        check = self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a")
-        ActionChains(self.driver).move_to_element(check).perform()
-        self.driver.find_element_by_css_selector("ul.card-list > li:nth-child(1) > a > span.card-checkbox").click()
-        self.driver.find_element_by_xpath('//button[text()="保存"]').click()
+        video_num = len(self.driver.find_elements_by_css_selector('[class="card-item  "]'))
+        select_video = random.randint(1, video_num)
+        choose = self.driver.find_element_by_css_selector(
+            '#containerDiv > div.material > div > ul >li:nth-child({})'.format(select_video))
+        ActionChains(self.driver).move_to_element(choose).perform()
+        self.driver.find_element_by_css_selector(
+            '#containerDiv > div.material > div > ul >li:nth-child({}) > a > span > i'.format(select_video)).click()
+        self.driver.find_element_by_css_selector('button[id="saveResource"]').click()
         # 添加习题
         time.sleep(1)
         self.driver.find_element_by_xpath('//button[@onclick="addQuestion()"]').click()
         exercise_table = self.driver.find_element_by_xpath('//*[@id="containerDiv"]/div[1]/div[2]/table')
         rows = len(exercise_table.find_elements_by_tag_name('tr'))
-        print(rows)
-        self.driver.find_element_by_css_selector('span[title="2014届高考物理：电磁学(大量主加客).docx"]').click()
+        check = random.randint(1, rows)
+        self.driver.find_element_by_css_selector(
+            '#material-5-list > tr:nth-child({}) > td.text-ellipsis > a > span'.format(check)).click()
         multiple_choice_num = len(self.driver.find_elements_by_xpath('//div[@class="widget-box"]'))
         # Multiple_choice = random.randint(1, multiple_choice_num)
         i = 1
