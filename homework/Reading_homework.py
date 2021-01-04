@@ -38,7 +38,8 @@ class Reading:
             '#containerDiv > div.material > div > ul > li:nth-child({}) > a'.format(select_ppt))
         ActionChains(self.driver).move_to_element(choose).perform()
         self.driver.find_element_by_css_selector(
-            '#containerDiv > div.material > div > ul > li:nth-child({}) > a > span.card-checkbox > i'.format(select_ppt)).click()
+            '#containerDiv > div.material > div > ul > li:nth-child({}) > a > span.card-checkbox > i'.format(
+                select_ppt)).click()
         self.driver.find_element_by_id("saveResource").click()
         # 添加图片
         self.driver.find_element_by_css_selector('[class="fa fa-file-image-o"]').click()
@@ -48,7 +49,8 @@ class Reading:
             '#containerDiv > div.material > div > ul > li:nth-child({}) > a'.format(select_image))
         ActionChains(self.driver).move_to_element(choose).perform()
         self.driver.find_element_by_css_selector(
-            '#containerDiv > div.material > div > ul > li:nth-child({}) > a > span.card-checkbox > i'.format(select_image)).click()
+            '#containerDiv > div.material > div > ul > li:nth-child({}) > a > span.card-checkbox > i'.format(
+                select_image)).click()
         self.driver.find_element_by_id("saveResource").click()
         # 添加音频
         self.driver.find_element_by_css_selector('[class="fa fa-file-audio-o"]').click()
@@ -83,4 +85,5 @@ class Reading:
         self.driver.find_element_by_id("saveResource").click()
         # 保存&&发布
         self.driver.find_element_by_xpath('//button[@class="btn  btn-blue"]').click()
-        self.driver.find_element_by_xpath('//*[@id="contentDiv"]/div[1]/div[2]/table/tbody/tr[1]/td[6]/div[1]/a[1]').click()
+        self.driver.find_element_by_xpath(
+            '//*[@id="contentDiv"]/div[1]/div[2]/table/tbody/tr[1]/td[6]/div[1]/a[1]').click()

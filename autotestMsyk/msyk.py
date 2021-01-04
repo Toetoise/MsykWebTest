@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver import ActionChains
-from autotest_msyk.Account_login import Login
-from autotest_msyk.Upload_file import Upload
-from autotest_msyk import Config_file
+from autotestMsyk.Account_login import Login
+from autotestMsyk.Upload_file import Upload
+from autotestMsyk import Config_file
 from homework.Tea_Homework import TeaHomework
 from courseware.Courseware import Courseware
 from material.Material import Material
@@ -142,21 +142,24 @@ class TestVisitMsykByEdge(unittest.TestCase):
     def test_Fenzu(self):
         self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("class-squad-manage").click()
-        allStudent = self.driver.find_element_by_id("allStudent").text
-        students_num = re.sub(r'）.*', "", re.sub(r'.*（', "", allStudent))
-        learnGrouplist_num = len(self.driver.find_elements_by_xpath("//*[@id='schemeUl']/li"))
-        while learnGrouplist_num < 3:
+        allstudent = self.driver.find_element_by_id("allstudent").text
+        students_num = re.sub(r'）.*', "", re.sub(r'.*（', "", allstudent))
+        learngrouplist_num = len(self.driver.find_elements_by_xpath("//*[@id='schemeUl']/li"))
+        while learngrouplist_num < 3:
             self.driver.find_element_by_xpath("//*[@id='squad-list-div']/div[1]/div/div[1]/button/i").click()
-            learnGrouplist_num += 1
+            learngrouplist_num += 1
         # 添加分组
-        Groups_num = len(self.driver.find_elements_by_xpath("//*[@id='schemeUl']/li[1]/ul/li"))
-        while Groups_num < int(students_num) :
-            self.driver.find_element_by_css_selector("#schemeUl > li:nth-child(1) > div:nth-child(1) > span:nth-child(4)").click()
+        groups_num = len(self.driver.find_elements_by_xpath("//*[@id='schemeUl']/li[1]/ul/li"))
+        while groups_num < int(students_num):
+            self.driver.find_element_by_css_selector(
+                "#schemeUl > li:nth-child(1) > div:nth-child(1) > span:nth-child(4)").click()
             time.sleep(1)
-            add_button = self.driver.find_element_by_xpath("//*[@id='schemeUl']/li[1]/ul[{}]/li/span[1]".format(Groups_num + 1))
-            add_button.send_keys("{}".format(Groups_num+1))
-            self.driver.find_element_by_xpath("//*[@id='schemeUl']/li[1]/ul[{}]/li/span[3]".format(Groups_num + 1)).click()
-            Groups_num += 1
+            add_button = self.driver.find_element_by_xpath(
+                "//*[@id='schemeUl']/li[1]/ul[{}]/li/span[1]".format(groups_num + 1))
+            add_button.send_keys("{}".format(groups_num+1))
+            self.driver.find_element_by_xpath(
+                "//*[@id='schemeUl']/li[1]/ul[{}]/li/span[3]".format(groups_num + 1)).click()
+            groups_num += 1
             time.sleep(1)
 
     @classmethod
@@ -165,5 +168,7 @@ class TestVisitMsykByEdge(unittest.TestCase):
         # cls.driver = webdriver.Edge(executable_path=driver_url)
         cls.driver = webdriver.Chrome()
         cls.driver.quit()
+
+
 if __name__ == '__main__':
     unittest.main()

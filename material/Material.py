@@ -1,7 +1,7 @@
 import random
 import time
-from autotest_msyk.Upload_file import Upload
-from autotest_msyk import Config_file
+from autotestMsyk.Upload_file import Upload
+from autotestMsyk import Config_file
 
 
 class Material:
@@ -11,28 +11,28 @@ class Material:
     def material(self):
         self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("material").click()
-        Bullet = self.driver.find_element_by_xpath('//*[@id="layui-layer1"]')
-        if Bullet.is_displayed():
+        bullet = self.driver.find_element_by_xpath('//*[@id="layui-layer1"]')
+        if bullet.is_displayed():
             print("有弹框")
             self.driver.find_element_by_xpath('//*[@id="layui-layer1"]/div[3]/a').click()
         else:
             print("没有弹框")
         self.driver.find_element_by_xpath('//*[@id="h3-title-1"]/div[1]').click()
-        # self.driver.find_element_by_xpath('//*[@id="myMaterialsubjectul"]/li[4]').click()
+        # self.driver.find_element_by_xpath('//*[@id="mymaterialsubjectul"]/li[4]').click()
         # self.driver.find_element_by_xpath('//*[@id="gradeList"]/li[3]').click()
-        myMaterialsubject_num = len(self.driver.find_elements_by_css_selector("#myMaterialsubjectul li"))
-        myMaterialsubject = random.randint(1, myMaterialsubject_num)
+        mymaterialsubject_num = len(self.driver.find_elements_by_css_selector("#mymaterialsubjectul li"))
+        mymaterialsubject = random.randint(1, mymaterialsubject_num)
         # 用{}占位在css中，format格式化随机数代入
-        Materialsubject = self.driver.find_element_by_css_selector(
-            '#myMaterialsubjectul > li:nth-child({})'.format(myMaterialsubject))
-        self.driver.execute_script("arguments[0].scrollIntoView();", Materialsubject)
-        Materialsubject.click()
-        myMaterialgrade_num = len(self.driver.find_elements_by_css_selector("#gradeList li"))
-        myMaterialgrade = random.randint(1, myMaterialgrade_num)
-        Materialgrade = self.driver.find_element_by_css_selector(
-            '#gradeList > li:nth-child({})'.format(myMaterialgrade))
-        self.driver.execute_script("arguments[0].scrollIntoView();", Materialgrade)
-        Materialgrade.click()
+        materialsubject = self.driver.find_element_by_css_selector(
+            '#mymaterialsubjectul > li:nth-child({})'.format(mymaterialsubject))
+        self.driver.execute_script("arguments[0].scrollIntoView();", materialsubject)
+        materialsubject.click()
+        mymaterialgrade_num = len(self.driver.find_elements_by_css_selector("#gradeList li"))
+        mymaterialgrade = random.randint(1, mymaterialgrade_num)
+        materialgrade = self.driver.find_element_by_css_selector(
+            '#gradeList > li:nth-child({})'.format(mymaterialgrade))
+        self.driver.execute_script("arguments[0].scrollIntoView();", materialgrade)
+        materialgrade.click()
         time.sleep(2)
         filepaths = Config_file.UN_sck_filepaths
         for filepath in filepaths[0:4:1]:

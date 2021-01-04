@@ -1,8 +1,8 @@
 import random
 import time
 from selenium.webdriver import ActionChains
-from autotest_msyk.Upload_file import Upload
-from autotest_msyk import Config_file
+from autotestMsyk.Upload_file import Upload
+from autotestMsyk import Config_file
 
 
 class Courseware:
@@ -13,16 +13,16 @@ class Courseware:
         self.driver.find_element_by_xpath('//a[text()="智慧课堂"]').click()
         self.driver.find_element_by_id("courseware").click()
         self.driver.find_element_by_id("addNewCourseware").click()
-        myCoursewaresubject_num = len(self.driver.find_elements_by_xpath(
-            '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span'))
+        # myCoursewaresubject_num = len(self.driver.find_elements_by_xpath(
+        #     '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span'))
         # myCoursewaresubject = random.randint(1, myCoursewaresubject_num)
         # self.driver.find_element_by_xpath(
         #     '//*[@id="main-container"]/div/div/div/div[2]/div/div[1]/div/div/span[{}]'.format(myCoursewaresubject)).click()
         self.driver.find_element_by_xpath('//span[text()="历史"]').click()
-        myCoursewareclass_num = len(self.driver.find_elements_by_xpath('//*[@id="classDiv"]/span'))
-        myCoursewareclass = random.randint(1, myCoursewareclass_num)
-        if myCoursewareclass_num > 1:
-            self.driver.find_element_by_xpath('//*[@id="classDiv"]/span[{}]'.format(myCoursewareclass)).click()
+        mycoursewaresubject_num = len(self.driver.find_elements_by_xpath('//*[@id="classDiv"]/span'))
+        mycoursewareclass = random.randint(1, mycoursewaresubject_num)
+        if mycoursewaresubject_num > 1:
+            self.driver.find_element_by_xpath('//*[@id="classDiv"]/span[{}]'.format(mycoursewareclass)).click()
         self.driver.find_element_by_id("coursewarName").send_keys("高中历史备课包")
         self.driver.find_element_by_class_name('upload-img-btn').click()
         filepath = Config_file.UN_filepaths[0]

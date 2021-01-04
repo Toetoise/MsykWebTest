@@ -30,13 +30,13 @@ time.sleep(2)
 driver.find_element_by_css_selector(".ant-btn-primary").click()
 time.sleep(2)
 
-def upload_file(filePath):
+def upload_file(filepath):
     dialog = win32gui.FindWindow("#32770", "打开")
     ComboBoxEx32 = win32gui.FindWindowEx(dialog, 0, "ComboBoxEx32", None)
     combox = win32gui.FindWindowEx(ComboBoxEx32, 0, "ComboBox", None)
     edit = win32gui.FindWindowEx(combox, 0, "Edit", None)
     button = win32gui.FindWindowEx(dialog, 0, "Button", "打开(&O)")
-    win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, filePath)
+    win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, filepath)
     win32gui.SendMessage(dialog, win32con.WM_COMMAND, 1, button)
 
 filepaths = [r"C:\Users\Tortoise\Desktop\3\1.pdf",r"C:\Users\Tortoise\Desktop\3\2.pdf",r"C:\Users\Tortoise\Desktop\3\3.pdf",r"C:\Users\Tortoise\Desktop\3\4.pdf"]

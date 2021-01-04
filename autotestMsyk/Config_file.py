@@ -1,4 +1,3 @@
-from selenium import webdriver
 # 内网本地测试环境
 Intranet_url = "https://httpswww.msyk.cn/"
 Local_filepaths = [r'D:\BAK_JF\WP\素材\picture\jpg\01.jpg', r'D:\BAK_JF\WP\素材\音频\different\林俊杰 - 将故事写成我们.mp3',

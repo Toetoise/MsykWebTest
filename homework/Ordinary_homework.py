@@ -41,7 +41,8 @@ class Ordinary:
         exercise_table = self.driver.find_element_by_xpath('//*[@id="containerDiv"]/div[1]/div[2]/table')
         rows = len(exercise_table.find_elements_by_tag_name('tr'))
         check = random.randint(1, rows)
-        self.driver.find_element_by_css_selector('#material-5-list > tr:nth-child({}) > td.text-ellipsis > a > span'.format(check)).click()
+        self.driver.find_element_by_css_selector(
+            '#material-5-list > tr:nth-child({}) > td.text-ellipsis > a > span'.format(check)).click()
         multiple_choice_num = len(self.driver.find_elements_by_xpath('//div[@class="widget-box"]'))
         # Multiple_choice = random.randint(1, multiple_choice_num)
         i = 1

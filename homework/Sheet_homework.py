@@ -1,7 +1,7 @@
 import time
 import random
-from autotest_msyk.Upload_file import Upload
-from autotest_msyk import Config_file
+from autotestMsyk.Upload_file import Upload
+from autotestMsyk import Config_file
 from selenium.webdriver.common.keys import Keys
 
 
@@ -78,7 +78,8 @@ class Sheet:
             self.driver.find_element_by_css_selector('[class="btn btn-sm btn-blue"]').click()
         multipleoption = random.randint(1, 4)
         self.driver.find_element_by_css_selector(
-            '#question-ul > li[data-ques-type="2"] > div.dtk-tm-li-body > label:nth-child({}) > span'.format(multipleoption)).click()
+            '#question-ul > li[data-ques-type="2"] > div.dtk-tm-li-body > label:nth-child({}) > span'.format(
+                multipleoption)).click()
         torf = ['[for="r2-0"]', '[for="r2-1"]']
         judgment = random.choice(torf)
         self.driver.find_element_by_css_selector(judgment).click()
