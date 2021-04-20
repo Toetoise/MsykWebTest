@@ -156,6 +156,8 @@ class TestVisitMsykByEdge(unittest.TestCase):
             time.sleep(1)
             add_button = self.driver.find_element_by_xpath(
                 "//*[@id='schemeUl']/li[1]/ul[{}]/li/span[1]".format(groups_num + 1))
+            # 也可以用以下变量格式化方法
+            # add_button = self.driver.find_element_by_xpath(f"//*[@id='schemeUl']/li[1]/ul[{groups_num + 1}]/li/span[1]")
             add_button.send_keys("{}".format(groups_num+1))
             self.driver.find_element_by_xpath(
                 "//*[@id='schemeUl']/li[1]/ul[{}]/li/span[3]".format(groups_num + 1)).click()

@@ -4,7 +4,7 @@ import win32gui
 import win32con
 import pytest
 import allure
-import  os
+import os
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
